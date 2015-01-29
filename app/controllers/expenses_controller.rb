@@ -5,6 +5,17 @@ class ExpensesController < ApplicationController
   # GET /expenses.json
   def index
     @expenses = Expense.all
+
+    @total_amount = @expenses.reduce(0) {|sum, i| sum + i.amount}
+
+    @transaction_number = @expenses.length
+
+    warning = "All is well"
+    if @total_amount < 0
+        warning = "You are overdrawn! Exorbitant fees are imminent!"
+    end
+
+    @warning = warning
   end
 
   # GET /expenses/1
